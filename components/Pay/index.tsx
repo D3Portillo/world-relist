@@ -1,20 +1,21 @@
-"use client";
+"use client"
+
 import {
   MiniKit,
   tokenToDecimals,
   Tokens,
   PayCommandInput,
-} from "@worldcoin/minikit-js";
+} from "@worldcoin/minikit-js"
 
 const sendPayment = async () => {
   try {
     const res = await fetch(`/api/initiate-payment`, {
       method: "POST",
-    });
+    })
 
-    const { id } = await res.json();
+    const { id } = await res.json()
 
-    console.log(id);
+    console.log(id)
 
     const payload: PayCommandInput = {
       reference: id,
@@ -30,26 +31,26 @@ const sendPayment = async () => {
         },
       ],
       description: "Watch this is a test",
-    };
-    if (MiniKit.isInstalled()) {
-      return await MiniKit.commandsAsync.pay(payload);
     }
-    return null;
+    if (MiniKit.isInstalled()) {
+      return await MiniKit.commandsAsync.pay(payload)
+    }
+    return null
   } catch (error: unknown) {
-    console.log("Error sending payment", error);
-    return null;
+    console.log("Error sending payment", error)
+    return null
   }
-};
+}
 
 const handlePay = async () => {
   if (!MiniKit.isInstalled()) {
-    console.error("MiniKit is not installed");
-    return;
+    console.error("MiniKit is not installed")
+    return
   }
-  const sendPaymentResponse = await sendPayment();
-  const response = sendPaymentResponse?.finalPayload;
+  const sendPaymentResponse = await sendPayment()
+  const response = sendPaymentResponse?.finalPayload
   if (!response) {
-    return;
+    return
   }
 
   if (response.status == "success") {
@@ -57,22 +58,22 @@ const handlePay = async () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ payload: response }),
-    });
-    const payment = await res.json();
+    })
+    const payment = await res.json()
     if (payment.success) {
       // Congrats your payment was successful!
-      console.log("SUCCESS!");
+      console.log("SUCCESS!")
     } else {
       // Payment failed
-      console.log("FAILED!");
+      console.log("FAILED!")
     }
   }
-};
+}
 
 export const PayBlock = () => {
   return (
     <button className="bg-blue-500 p-4" onClick={handlePay}>
       Pay
     </button>
-  );
-};
+  )
+}
