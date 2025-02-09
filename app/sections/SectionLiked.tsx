@@ -1,7 +1,10 @@
-import { MOCK_PRODUDCTS } from "@/lib/products"
+"use client"
+
+import { useProducts } from "@/lib/products"
 import { Fragment } from "react"
 
 export default function SectionLiked() {
+  const [products] = useProducts()
   return (
     <Fragment>
       <nav className="pt-2 pb-3 text-xl border-b">
@@ -9,7 +12,7 @@ export default function SectionLiked() {
       </nav>
 
       <section className="mt-4 grid grid-cols-2 gap-4">
-        {MOCK_PRODUDCTS.slice(0, 4).map(({ name, price, image }) => (
+        {products.slice(0, 4).map(({ name, price, image }) => (
           <div key={`liked-${image}-${price}`}>
             <div
               style={{

@@ -6,6 +6,7 @@ import { Inter } from "next/font/google"
 import MiniKitProvider from "@/components/minikit-provider"
 import dynamic from "next/dynamic"
 import AuthProvider from "@/components/auth-provider"
+import { Toaster } from "@/components/ui/sonner"
 
 const inter = Inter({ subsets: [] })
 
@@ -29,6 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <Toaster position="top-center" />
         <AuthProvider>
           <ErudaProvider>
             <MiniKitProvider>{children}</MiniKitProvider>

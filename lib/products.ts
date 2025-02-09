@@ -1,3 +1,8 @@
+"use client"
+
+import { useAtom } from "jotai"
+import { atomWithStorage } from "jotai/utils"
+
 export const MOCK_PRODUDCTS = [
   {
     name: "Vintage Wooden Rocking Chair",
@@ -51,3 +56,6 @@ export const MOCK_PRODUDCTS = [
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbjpCSgOzNdlfYewben-ULtihnVsKiFbhkpA&s",
   },
 ]
+
+const atomProducts = atomWithStorage("ap___products", MOCK_PRODUDCTS)
+export const useProducts = () => useAtom(atomProducts)

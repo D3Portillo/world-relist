@@ -1,12 +1,13 @@
 "use client"
 
-import { MOCK_PRODUDCTS } from "@/lib/products"
+import { useProducts } from "@/lib/products"
 import { cn } from "@/lib/utils"
 import { useWorldAuth } from "@/lib/wallet"
 import { SearchField } from "@worldcoin/mini-apps-ui-kit-react"
 import { Fragment } from "react"
 
 export default function SectionHome() {
+  const [products] = useProducts()
   const { isLoggedIn, user } = useWorldAuth()
 
   return (
@@ -29,7 +30,8 @@ export default function SectionHome() {
           </nav>
 
           <section className="mt-4 shrink-0 flex overflow-auto gap-4">
-            {MOCK_PRODUDCTS.sort(() => Math.random() - 0.5)
+            {products
+              .sort(() => Math.random() - 0.5)
               .slice(0, 4)
               .map(({ name, price, image }) => (
                 <div key={`recom-${image}-${price}`}>
@@ -54,7 +56,7 @@ export default function SectionHome() {
       </nav>
 
       <section className="mt-4 mb-12 grid grid-cols-2 gap-4">
-        {MOCK_PRODUDCTS.map(({ name, price, image }) => (
+        {products.map(({ name, price, image }) => (
           <div key={`item-${image}-${price}`}>
             <div
               style={{
