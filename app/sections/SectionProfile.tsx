@@ -47,7 +47,9 @@ export default function SectionProfile() {
       <nav className="flex gap-4 items-center mt-4">
         <div
           style={{
-            backgroundImage: `url(${user?.profilePictureUrl})`,
+            backgroundImage: `url(${
+              user?.profilePictureUrl || "/pf-default.png"
+            })`,
           }}
           className="bg-black/5 bg-cover bg-center rounded-full overflow-hidden size-24"
         />
