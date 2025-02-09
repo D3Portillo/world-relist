@@ -42,7 +42,7 @@ const sendPayment = async () => {
   }
 }
 
-const handlePay = async () => {
+export const handlePay = async () => {
   if (!MiniKit.isInstalled()) {
     console.error("MiniKit is not installed")
     return
@@ -68,12 +68,4 @@ const handlePay = async () => {
       console.log("FAILED!")
     }
   }
-}
-
-export const PayBlock = () => {
-  return (
-    <button className="bg-blue-500 p-4" onClick={handlePay}>
-      Pay
-    </button>
-  )
 }

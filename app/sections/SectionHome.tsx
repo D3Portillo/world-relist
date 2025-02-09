@@ -1,17 +1,26 @@
 "use client"
 
-import { useProducts } from "@/lib/products"
-import { cn } from "@/lib/utils"
-import { useWorldAuth } from "@/lib/wallet"
+import { Fragment, useState } from "react"
 import { SearchField } from "@worldcoin/mini-apps-ui-kit-react"
-import { Fragment } from "react"
+
+import { cn } from "@/lib/utils"
+import { useProducts } from "@/lib/products"
+import { useWorldAuth } from "@/lib/wallet"
+
+import ModalBuy from "@/app/ModalBuy"
 
 export default function SectionHome() {
   const [products] = useProducts()
+  const [buyingItem, setBuyingItem] = useState<{
+    name: string
+    price: number
+    image: string
+  } | null>(null)
   const { isLoggedIn, user } = useWorldAuth()
 
   return (
     <Fragment>
+      <ModalBuy onClose={() => setBuyingItem(null)} item={buyingItem} />
       <nav className="border-b -mx-3 -mt-2 [&_input]:text-lg [&_input]:rounded-none [&_input]:h-16">
         <SearchField placeholder="Search for Xbox One" />
       </nav>
@@ -34,7 +43,10 @@ export default function SectionHome() {
               .sort(() => Math.random() - 0.5)
               .slice(0, 4)
               .map(({ name, price, image }) => (
-                <div key={`recom-${image}-${price}`}>
+                <button
+                  onClick={() => setBuyingItem({ name, price, image })}
+                  key={`recom-${image}-${price}`}
+                >
                   <div
                     style={{
                       backgroundImage: `url(${image})`,
@@ -43,7 +55,7 @@ export default function SectionHome() {
                   />
                   <strong className="text-lg mt-2 block">${price}</strong>
                   <p className="opacity-70">{name}</p>
-                </div>
+                </button>
               ))}
           </section>
         </Fragment>
@@ -57,7 +69,10 @@ export default function SectionHome() {
 
       <section className="mt-4 mb-12 grid grid-cols-2 gap-4">
         {products.map(({ name, price, image }) => (
-          <div key={`item-${image}-${price}`}>
+          <button
+            onClick={() => setBuyingItem({ name, price, image })}
+            key={`item-${image}-${price}`}
+          >
             <div
               style={{
                 backgroundImage: `url(${image})`,
@@ -66,7 +81,7 @@ export default function SectionHome() {
             />
             <strong className="text-lg mt-2 block">${price}</strong>
             <p className="opacity-70">{name}</p>
-          </div>
+          </button>
         ))}
       </section>
     </Fragment>
