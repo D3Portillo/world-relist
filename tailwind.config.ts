@@ -19,13 +19,21 @@ const config: Config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      opacity: {
+        2: ".02",
+        3: ".03",
+        7: ".07",
+      },
       colors: {
         relist: {
+          yellow: {
+            DEFAULT: "#ffd300",
+          },
           green: {
             DEFAULT: "#E8FF5D",
           },
           teal: {
-            DEFAULT: "#FFCA4E",
+            DEFAULT: "#B4EA40",
           },
         },
         background: "hsl(var(--background))",

@@ -3,6 +3,7 @@
 import { MiniKit } from "@worldcoin/minikit-js"
 import { type WalletSession } from "./wallet-actions"
 import { atom, useAtom } from "jotai"
+import { useState } from "react"
 
 export const USER_STORAGE_KEY = "__worldRelistUser" // Unique key for localStorage
 
@@ -15,20 +16,27 @@ const atomUser = atom<MiniKitUser | null>(MiniKit.user)
 export const useWorldUser = () => useAtom(atomUser)
 
 export const useWorldAuth = () => {
+  const [isSyncing, setIsSyncing] = useState(false)
   const [user, setUser] = useWorldUser()
 
   const signOut = () => {
     // Clear the session from localStorage and update the user state
     localStorage.removeItem(USER_STORAGE_KEY)
     setUser(null)
+    setIsSyncing(false)
   }
 
   const signInWithWallet = async () => {
     if (!isWorldApp()) return // Early if not installed
 
+    setIsSyncing(true)
     const { payload, nonce } = await generateAuthPayload()
-    if (payload.status === "error") return
-    // Early if error
+    if (payload.status === "error") {
+      setIsSyncing(false)
+      // Early if error
+
+      return
+    }
 
     await fetch("/api/complete-login", {
       // Finalize the sign in process
@@ -52,12 +60,14 @@ export const useWorldAuth = () => {
       })
     )
 
+    setIsSyncing(false)
     setUser(MiniKit.user) // Update the user info
   }
 
   return {
     signInWithWallet,
     signOut,
+    isSyncing,
     isLoggedIn: Boolean(user),
     user,
   }

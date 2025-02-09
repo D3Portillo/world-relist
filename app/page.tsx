@@ -1,10 +1,9 @@
 "use client"
 
 import { TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useWorldAuth } from "@/lib/wallet"
 import { Tabs, TabsContent } from "@radix-ui/react-tabs"
 import { SearchField } from "@worldcoin/mini-apps-ui-kit-react"
-import { useState } from "react"
+import { Fragment, useState } from "react"
 
 import { FaRegHeart } from "react-icons/fa6"
 import { LuPackagePlus } from "react-icons/lu"
@@ -17,10 +16,10 @@ import ModalSell from "./ModalSell"
 import SectionHome from "./sections/SectionHome"
 import SectionInbox from "./sections/SectionInbox"
 import SectionLiked from "./sections/SectionLiked"
+import SectionProfile from "./sections/SectionProfile"
 
 export default function Home() {
   const [view, setView] = useState("home")
-  const { isLoggedIn, user } = useWorldAuth()
 
   return (
     <Tabs
@@ -28,23 +27,21 @@ export default function Home() {
       onValueChange={setView}
       className="max-w-2xl h-screen flex flex-col mx-auto"
     >
-      {view === "home" && (
-        <nav className="border-b [&_input]:rounded-none [&_input]:h-16">
-          <SearchField placeholder="Search for Xbox One" />
-        </nav>
-      )}
-
-      <section className="px-3 flex-grow overflow-auto pt-2">
-        <TabsContent value="home">
+      <section className="px-3 flex flex-col flex-grow overflow-auto pt-2">
+        <TabsContent asChild value="home">
           <SectionHome />
         </TabsContent>
 
-        <TabsContent value="inbox">
+        <TabsContent asChild value="inbox">
           <SectionInbox />
         </TabsContent>
 
-        <TabsContent value="liked">
+        <TabsContent asChild value="liked">
           <SectionLiked />
+        </TabsContent>
+
+        <TabsContent asChild value="profile">
+          <SectionProfile />
         </TabsContent>
       </section>
 
