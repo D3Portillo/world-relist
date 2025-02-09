@@ -68,4 +68,6 @@ export const handlePay = async () => {
       console.log("FAILED!")
     }
   }
+
+  return response
 }

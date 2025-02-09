@@ -1,3 +1,5 @@
+"use client"
+
 import { toast } from "sonner"
 
 import {
@@ -7,6 +9,7 @@ import {
   Typography,
 } from "@worldcoin/mini-apps-ui-kit-react"
 import { handlePay } from "@/components/Pay"
+import { useWorldAuth } from "@/lib/wallet"
 
 export default function ModalBuy({
   onClose,
@@ -19,10 +22,18 @@ export default function ModalBuy({
     image: string
   } | null
 }) {
+  const { isLoggedIn, signInWithWallet } = useWorldAuth()
+
   async function handleBuy() {
-    await handlePay()
-    toast.success("Yaay. Item purchased!")
-    // Implement buying logic here
+    if (!isLoggedIn) {
+      toast.error("Login to buy this item")
+      return signInWithWallet()
+    }
+
+    const result = await handlePay()
+    if (result?.status === "success") {
+      toast.success("Yaay. Item purchased!")
+    }
   }
 
   if (!item) return null
